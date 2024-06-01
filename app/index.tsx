@@ -29,6 +29,30 @@ const Home = () => {
     { bankName: "GT Bank", amount: 950 },
     { bankName: "PiggyVest", amount: 1050 },
   ];
+  const transactions = [
+    {
+      name: "John Ogaga",
+      amount: 20983,
+      transactionType: "credit",
+      bank: "Zenith Bank",
+      time: "12:03 AM",
+    },
+    {
+      name: "Habib Yogurt",
+      amount: 20983,
+      transactionType: "debit",
+      bank: "GT-Bank",
+      time: "12:03 AM",
+    },
+    {
+      name: "Habib Yogurt",
+      amount: 20983,
+      transactionType: "debit",
+      bank: "GT-Bank",
+      time: "12:03 AM",
+    },
+  ];
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.primary }}>
       <ScrollView style={styles.container}>
@@ -119,18 +143,59 @@ const Home = () => {
               <Text style={styles.transactionsHeader}>Recent Transactions</Text>
               <NextIcon />
             </View>
-            <View style={styles.transaction}>
-              <Text style={styles.transactionName}>John Ogaga</Text>
-              <Text style={styles.transactionAmountPositive}>+₦20,983</Text>
-            </View>
-            <View style={styles.transaction}>
-              <Text style={styles.transactionName}>Habib Yogurt</Text>
-              <Text style={styles.transactionAmountNegative}>-₦20,983</Text>
-            </View>
-            <View style={styles.transaction}>
-              <Text style={styles.transactionName}>Habib Yogurt</Text>
-              <Text style={styles.transactionAmountNegative}>-₦20,983</Text>
-            </View>
+            {transactions.map((item, index) => (
+              <View style={styles.transaction} key={index}>
+                {/* DescCription */}
+                <View
+                  style={{
+                    flexDirection: "row",
+                    gap: 10,
+                    alignItems: "center",
+                  }}
+                >
+                  {/* Icon */}
+                  <View
+                    style={{
+                      height: 40,
+                      width: 40,
+                      backgroundColor: "white",
+                      borderRadius: 100,
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        fontWeight: "500",
+                        color: "blue",
+                      }}
+                    >
+                      {item.name.slice(0, 1)}
+                    </Text>
+                  </View>
+                  <View>
+                    <Text style={styles.transactionName}>{item.name}</Text>
+                    <Text style={styles.transactionBank}>
+                      {`${item.bank} ${item.time}`}
+                    </Text>
+                  </View>
+                </View>
+                {/* Amount */}
+                <Text
+                  style={[
+                    styles.transactionAmountPositive,
+                    {
+                      color:
+                        item.transactionType === "credit" ? "#4CAF50" : "white",
+                    },
+                  ]}
+                >{`${
+                  item.transactionType === "credit" ? "+" : "-"
+                }N${item.amount.toLocaleString()}`}</Text>
+              </View>
+            ))}
           </View>
         </View>
       </ScrollView>
@@ -304,16 +369,20 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     paddingVertical: 10,
-    borderBottomColor: "grey",
-    borderBottomWidth: 1,
+    alignItems: "center",
   },
   transactionName: {
     color: "white",
     fontSize: 16,
   },
+  transactionBank: {
+    color: "white",
+    fontWeight: "300",
+    fontSize: 14,
+  },
   transactionAmountPositive: {
-    color: "#4CAF50",
-    fontSize: 16,
+    fontSize: 18,
+    fontWeight: "600",
   },
   transactionAmountNegative: {
     color: "#FFFFFF",
